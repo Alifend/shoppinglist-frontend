@@ -1,52 +1,37 @@
 import "./App.css";
-import { Routes, Route, Link, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import History from "./pages/History";
 import Statistics from "./pages/Statistics";
 import Shoppingify from "./pages/Shoppingify";
 import styled from "styled-components";
 import Navbar from "./components/Navbar";
-import ShoppingCart from "./components/SideContent/Cart/ShoppingCart";
 import { useState } from "react";
-import ViewItem from "./components/SideContent/ViewItem/ViewItem";
 import ShopList from "./components/History/ShopList";
-import AddItem from "./components/SideContent/AddItem/AddItem";
 import { AnimatePresence } from "framer-motion";
 function App() {
-  const [show, setShowCart] = useState(false);
+  const [showSide, setShowSide] = useState(false);
   const location = useLocation();
+  const locationArr = location.pathname?.split("/") ?? [];
   return (
     <Container className="App">
-      <Navbar setShowCart={setShowCart} />
+      <Navbar setShowSide={setShowSide} showSide={showSide} />
       <AnimatePresence exitBeforeEnter>
-        <Routes location={location} key={location.pathname}>
-          <Route path="/" element={<Shoppingify setShowCart={setShowCart} />}>
-            <Route path="" element={<ShoppingCart show={show} />} />
-            <Route path="/add" element={<AddItem show={show} />} />
-            <Route path="/view/:itemId" element={<ViewItem show={show} />} />
-          </Route>
-          <Route path="/history" element={<History />}>
-            <Route path="" element={<ShoppingCart show={show} />} />
-            <Route path="/history/add" element={<AddItem show={show} />} />
-            <Route
-              path="/history/view/:itemId"
-              element={<ViewItem show={show} />}
-            />
-          </Route>
-          <Route path="/history/shopList/:id" element={<ShopList />}>
-            <Route path="" element={<ShoppingCart show={show} />} />
-            <Route
-              path="/history/shopList/:id/add"
-              element={<AddItem show={show} />}
-            />
-          </Route>
-          <Route path="/statistics" element={<Statistics />}>
-            <Route path="" element={<ShoppingCart show={show} />} />
-            <Route path="/statistics/add" element={<AddItem show={show} />} />
-            <Route
-              path="/statistics/view/:itemId"
-              element={<ViewItem show={show} />}
-            />
-          </Route>
+        <Routes location={location} key={locationArr[0]}>
+          <Route
+            path="/home/*"
+            element={
+              <Shoppingify showSide={showSide} setShowSide={setShowSide} />
+            }
+          />
+          <Route path="/history/*" element={<History showSide={showSide} />} />
+          <Route
+            path="/history/shopList/:id/*"
+            element={<ShopList showSide={showSide} />}
+          />
+          <Route
+            path="/statistics/*"
+            element={<Statistics showSide={showSide} />}
+          />
         </Routes>
       </AnimatePresence>
     </Container>
