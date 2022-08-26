@@ -8,14 +8,13 @@ import Loading from "../components/Shared/Loading";
 import { BsSearch } from "react-icons/bs";
 import ItemServices from "../services/ItemServices";
 import { addItem } from "../store/ItemSlice";
-
+import { motion } from "framer-motion";
 const Shoppingify = ({ setShowCart }) => {
   const [categories, setCategories] = useState([]);
   const { isLoading, error, data } = useQuery(["items"], () =>
     ItemServices.getItems()
   );
   const [filterName, setFilterName] = useState("");
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const addItemToCart = (item) => {
@@ -34,7 +33,13 @@ const Shoppingify = ({ setShowCart }) => {
 
   return (
     <>
-      <ShoppingContainer>
+      <ShoppingContainer
+        id="shopingContainer"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        exit={{ opacity: 0, transition: { type: "tween", duration: 0.2 } }}
+      >
         <Box>
           <Text
             fontSize="26px"
@@ -68,6 +73,7 @@ const Shoppingify = ({ setShowCart }) => {
           />
         ))}
       </ShoppingContainer>
+
       <Outlet />
     </>
   );
@@ -118,7 +124,7 @@ const Text = styled.p`
   line-height: ${(props) => (props.lineHeight ? props.lineHeight : "auto")};
   max-width: 450px;
 `;
-const ShoppingContainer = styled.section`
+const ShoppingContainer = styled(motion.section)`
   grid-area: content;
   padding: clamp(12.45px, 5.4px + 2.19vw, 37px);
   height: 100vh;

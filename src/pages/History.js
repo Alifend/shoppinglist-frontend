@@ -18,6 +18,7 @@ const History = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
+        exit={{ opacity: 0, transition: { type: "tween", duration: 0.2 } }}
       >
         <Text fontSize="26px" fontWeight="700" margin="20px 0px">
           <Span>Shopping history</Span>

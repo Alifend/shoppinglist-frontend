@@ -23,6 +23,7 @@ const Statistics = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
+        exit={{ opacity: 0, transition: { type: "tween", duration: 0.2 } }}
       >
         <ItemsSection>
           <Bars data={items?.data} color="#F9A109" title={"Items"} />
