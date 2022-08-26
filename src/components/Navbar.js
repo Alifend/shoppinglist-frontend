@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 import { ReactComponent as Logo } from "./../assets/logo.svg";
 import {
   FaBars,
@@ -7,14 +8,41 @@ import {
   FaChartLine,
   FaCartArrowDown,
 } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 const Navbar = ({ setShowCart }) => {
+  const [position, setPosition] = useState(4);
+  const [quantity, setQuantity] = useState(0);
   const navigate = useNavigate();
-  const [position, setPosition] = useState(1);
+  const location = useLocation();
+
+  const items = useSelector((state) => state.items);
+  useEffect(() => {
+    if (items.length != 0) {
+      const temp = items.reduce((prev, next) => prev + next.quantity, 0);
+      setQuantity(temp);
+    } else {
+      setQuantity(0);
+    }
+  }, [items]);
+
+  useEffect(() => {
+    // console.log(quantity);
+  }, [quantity]);
+
   const handleClick = (route, position) => {
     navigate(route);
     setPosition(position);
   };
+  const findLocation = () => {
+    const pathname = location.pathname;
+    setPosition(1);
+    pathname.includes("statistics") && setPosition(3);
+    pathname.includes("history") && setPosition(2);
+  };
+  useEffect(() => {
+    findLocation();
+  }, []);
+
   return (
     <Nav>
       <Logo />
@@ -30,7 +58,10 @@ const Navbar = ({ setShowCart }) => {
           <FaChartLine size={20} />
         </IconContainer>
       </Menu>
-      <Circle onClick={() => setShowCart((current) => !current)}>
+      <Circle
+        quantity={quantity}
+        onClick={() => setShowCart((current) => !current)}
+      >
         <FaCartArrowDown color="white" size={20} />
       </Circle>
     </Nav>
@@ -39,12 +70,30 @@ const Navbar = ({ setShowCart }) => {
 
 const Circle = styled.div`
   display: grid;
+  position: relative;
   place-content: center;
-  width: 42px;
-  height: 42px;
+  width: 35px;
+  height: 35px;
   background: var(--color-primary);
   border-radius: 50%;
   z-index: 10;
+  @media only screen and (min-width: 800px) {
+    width: 42px;
+    height: 42px;
+  }
+  &::after {
+    content: ${(props) => (props.quantity ? `"${props.quantity}"` : `"0"`)};
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    border-radius: 4px;
+    height: 20px;
+    width: 20px;
+    background-color: #eb5757;
+    color: white;
+    display: grid;
+    place-content: center;
+  }
 `;
 const Line = styled.div`
   position: absolute;
@@ -54,7 +103,9 @@ const Line = styled.div`
       ? "0px"
       : props.position == 2
       ? "calc(60% - 45px)"
-      : "calc(100% - 45px)"};
+      : props.position == 3
+      ? "calc(100% - 45px)"
+      : props.position == 4 && "calc(60% - 45px)"};
   transition: top 0.3s ease;
   width: 6px;
   height: 45px;
