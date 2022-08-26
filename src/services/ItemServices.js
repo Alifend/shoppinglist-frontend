@@ -1,5 +1,5 @@
 import axios from "axios";
-const API = "http://192.168.0.18:3001";
+const API = process.env.REACT_APP_API;
 class ItemServices {
   getItems() {
     return axios.get(API + "/items");
