@@ -29,18 +29,19 @@ const Text = styled.label`
   position: relative;
   color: ${(props) => (props.color ? props.color : "black")};
   text-align: ${(props) => (props.textAlign ? props.textAlign : "left")};
-  font-size: ${(props) => (props.fontSize ? props.fontSize : "16px")};
+  font-size: ${(props) =>
+    props.fontSize ? props.fontSize : "var(--font-size-md)"};
   font-weight: ${(props) => (props.fontWeight ? props.fontWeight : "500")};
   margin: ${(props) => (props.margin ? props.margin : "0px")};
   width: 100%;
   &:focus-within {
-    color: #f9a109 !important;
+    color: var(--color-primary) !important;
   }
 `;
 
 const ShoppingCartStyled = styled.aside`
   height: 100%;
-  width: calc(100% - 42px);
+  width: calc(100% - 52px);
   padding: 16.29px;
   display: flex;
   align-items: center;
@@ -50,10 +51,10 @@ const ShoppingCartStyled = styled.aside`
   /* width: clamp(320px, 11.69vw + 220.57px, calc(100vw - 42px)); */
   background: white;
   position: fixed;
-  left: ${(props) => (props.show ? "42px" : "-100%")};
+  left: ${(props) => (props.show ? "52px" : "-100%")};
   transition: left 0.4s ease;
   @media only screen and (min-width: 800px) {
-    width: 450px;
+    width: 389px;
     right: 0px;
     left: auto;
     grid-area: side;

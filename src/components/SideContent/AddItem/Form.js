@@ -2,12 +2,11 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useQuery } from "@tanstack/react-query";
 import CategoriesList from "./CategoriesList";
-import ItemServices from "../services/ItemServices";
-import ItemSchema from "./../schemas/Item";
+import ItemSchema from "./../../../schemas/Item";
 import { Formik, Form, Field } from "formik";
-import useAddNewItem from "../hooks/useAddNewItem";
+import { useAddNewItem } from "../../../hooks/useItem";
 import { useNavigate } from "react-router-dom";
-import { MdClose } from "react-icons/md";
+import ItemServices from "../../../services/ItemServices";
 
 const ItemForm = () => {
   const { isLoading, error, data } = useQuery(["categories"], () =>
@@ -91,7 +90,7 @@ const ItemForm = () => {
           </Label>
           <Box>
             <Button
-              onClick={() => navigate("/")}
+              onClick={() => navigate(-1)}
               backgroundColor="inherit"
               color="#34333A"
             >
@@ -107,7 +106,7 @@ const ItemForm = () => {
   );
 };
 
-const StyledField = styled(Field)`
+export const StyledField = styled(Field)`
   border: 2px solid #bdbdbd;
   border-radius: 12px;
   width: 100%;
@@ -121,7 +120,7 @@ const StyledField = styled(Field)`
   }
   &:focus {
     outline: none !important;
-    border: 2px solid #f9a109;
+    border: 2px solid var(--color-primary);
   }
 `;
 
@@ -145,12 +144,13 @@ const Label = styled.label`
   display: inline-block;
   color: ${(props) => (props.color ? props.color : "black")};
   text-align: ${(props) => (props.textAlign ? props.textAlign : "left")};
-  font-size: ${(props) => (props.fontSize ? props.fontSize : "16px")};
+  font-size: ${(props) =>
+    props.fontSize ? props.fontSize : "var(--font-size-md)"};
   font-weight: ${(props) => (props.fontWeight ? props.fontWeight : "500")};
   margin: ${(props) => (props.margin ? props.margin : "0px")};
   width: 100%;
   &:focus-within {
-    color: #f9a109 !important;
+    color: var(--color-primary) !important;
   }
 `;
 
@@ -160,7 +160,7 @@ const Button = styled.button`
   border-radius: 12px;
   padding: 20px 25px;
   border: none;
-  font-size: 16px;
+  font-size: var(--font-size-md);
   line-height: 18px;
   width: 87px;
 `;
