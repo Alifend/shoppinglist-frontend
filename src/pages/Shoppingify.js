@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Outlet, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import ListItems from "../components/Shoppingify/ListItems";
 import Loading from "../components/Shared/Loading";
@@ -9,7 +8,8 @@ import { BsSearch } from "react-icons/bs";
 import ItemServices from "../services/ItemServices";
 import { addItem } from "../store/ItemSlice";
 import { motion } from "framer-motion";
-const Shoppingify = ({ setShowCart }) => {
+import Side from "./Side";
+const Shoppingify = ({ showSide, setShowSide }) => {
   const [categories, setCategories] = useState([]);
   const { isLoading, error, data } = useQuery(["items"], () =>
     ItemServices.getItems()
@@ -63,7 +63,7 @@ const Shoppingify = ({ setShowCart }) => {
           <ListItems
             key={index}
             categoryName={category}
-            setShowCart={setShowCart}
+            setShowSide={setShowSide}
             items={data.data.filter(
               (item) =>
                 item.category == category &&
@@ -73,8 +73,7 @@ const Shoppingify = ({ setShowCart }) => {
           />
         ))}
       </ShoppingContainer>
-
-      <Outlet />
+      <Side showSide={showSide} />
     </>
   );
 };

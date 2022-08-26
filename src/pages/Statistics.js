@@ -1,6 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
 import React from "react";
-import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 import Bars from "../components/Statistics/Bars";
 import Graph from "../components/Statistics/Graph";
@@ -9,8 +7,9 @@ import {
   useGetTopSaleByMonth,
 } from "../hooks/useShopList";
 import { motion } from "framer-motion";
+import Side from "./Side";
 
-const Statistics = () => {
+const Statistics = ({ showSide }) => {
   const { isLoading: isLoadingItems, data: items } =
     useGetTopSaleByField("name");
   const { isLoading: isLoadingCategories, data: categories } =
@@ -33,13 +32,15 @@ const Statistics = () => {
         </CategoriesSection>
         <Graph data={month?.data} />
       </ShoppingContainer>
-      <Outlet />
+      <Side showSide={showSide} />
     </>
   );
 };
 
 const ShoppingContainer = styled(motion.main)`
   grid-area: content;
+  height: 100vh;
+  overflow: auto;
   padding: clamp(12.45px, 5.4px + 2.19vw, 37px);
   display: grid;
   grid-template-columns: 100%;

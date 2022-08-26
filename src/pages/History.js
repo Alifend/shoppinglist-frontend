@@ -1,17 +1,22 @@
-import React from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import HistoryItem from "../components/History/HistoryItem";
 import { useGetAllLists } from "../hooks/useShopList";
 import { months } from "./../utilities/months";
 import { motion } from "framer-motion";
+import Side from "./Side";
 
-const History = () => {
+const History = ({ showSide }) => {
   const navigate = useNavigate();
   const { isLoading, data } = useGetAllLists();
   const viewShopList = (id) => {
     navigate("/history/shopList/" + id);
   };
+  useEffect(() => {
+    console.log(showSide);
+  }, [showSide]);
+
   return (
     <>
       <HistoryContainer
@@ -23,17 +28,20 @@ const History = () => {
         <Text fontSize="26px" fontWeight="700" margin="20px 0px">
           <Span>Shopping history</Span>
         </Text>
-        {data?.data.map((month) => (
-          <>
+        {data?.data.map((month, index) => (
+          <React.Fragment key={index}>
             <Text>{months[month._id.month] + " " + month._id.year}</Text>
-
-            {month.shopLists.map((shopList) => (
-              <HistoryItem {...shopList} viewShopList={viewShopList} />
+            {month.shopLists.map((shopList, index) => (
+              <HistoryItem
+                key={index}
+                {...shopList}
+                viewShopList={viewShopList}
+              />
             ))}
-          </>
+          </React.Fragment>
         ))}
       </HistoryContainer>
-      <Outlet />
+      <Side showSide={showSide} />
     </>
   );
 };
@@ -41,6 +49,7 @@ const History = () => {
 const HistoryContainer = styled(motion.section)`
   grid-area: content;
   height: 100vh;
+  overflow: auto;
   padding: clamp(12.45px, 5.4px + 2.19vw, 37px);
   display: flex;
   flex-direction: column;
