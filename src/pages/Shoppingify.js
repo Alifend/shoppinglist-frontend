@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import ListItems from "../components/ListItems";
-import Loading from "../components/Loading";
+import ListItems from "../components/Shoppingify/ListItems";
+import Loading from "../components/Shared/Loading";
 import { BsSearch } from "react-icons/bs";
 import ItemServices from "../services/ItemServices";
 import { addItem } from "../store/ItemSlice";
@@ -36,7 +36,12 @@ const Shoppingify = ({ setShowCart }) => {
     <>
       <ShoppingContainer>
         <Box>
-          <Text fontSize="26px" fontWeight="700" margin="20px 0px">
+          <Text
+            fontSize="26px"
+            fontWeight="700"
+            lineHeight="2.25rem"
+            margin="0px 0px 20px 0px"
+          >
             <Span>Shoppingify</Span> allows you take your shopping list wherever
             you go
           </Text>
@@ -62,7 +67,6 @@ const Shoppingify = ({ setShowCart }) => {
             addItemToCart={addItemToCart}
           />
         ))}
-        {/* {!isLoading && data.map((list) => <ListItems {...list} />)} */}
       </ShoppingContainer>
       <Outlet />
     </>
@@ -71,9 +75,6 @@ const Shoppingify = ({ setShowCart }) => {
 
 const Box = styled.div`
   width: 100%;
-  /* display: flex;
-  justify-content: space-between;
-} */
   @media only screen and (min-width: 1200px) {
     display: flex;
     justify-content: space-between;
@@ -103,24 +104,25 @@ const Input = styled.input`
   }
 `;
 const Span = styled.span`
-  font-size: 26px;
+  font-size: var(--font-size-xl);
   font-weight: 700;
-  color: #f9a109;
+  color: var(--color-primary);
 `;
 const Text = styled.p`
   color: ${(props) => (props.color ? props.color : "black")};
   text-align: ${(props) => (props.textAlign ? props.textAlign : "left")};
-  font-size: ${(props) => (props.fontSize ? props.fontSize : "16px")};
+  font-size: ${(props) =>
+    props.fontSize ? props.fontSize : "var(--font-size-md)"};
   font-weight: ${(props) => (props.fontWeight ? props.fontWeight : "500")};
   margin: ${(props) => (props.margin ? props.margin : "0px")};
+  line-height: ${(props) => (props.lineHeight ? props.lineHeight : "auto")};
   max-width: 450px;
 `;
 const ShoppingContainer = styled.section`
   grid-area: content;
-  /* width: min(450px, 100%); */
   padding: clamp(12.45px, 5.4px + 2.19vw, 37px);
-  /* padding: 37px;
-  padding: 12.45px; */
+  height: 100vh;
+  overflow: auto;
 `;
 
 export default Shoppingify;
