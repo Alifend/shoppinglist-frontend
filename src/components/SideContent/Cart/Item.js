@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { FaMinus, FaPlus, FaTrash } from "react-icons/fa";
-import { addQuantity, decreaseQuantity, deleteItem } from "../store/ItemSlice";
+import {
+  addQuantity,
+  decreaseQuantity,
+  deleteItem,
+} from "../../../store/ItemSlice";
 import { MdCheck } from "react-icons/md";
 const Item = ({ editableMode, dispatch, name, _id, quantity }) => {
   const [isSelected, setIsSelected] = useState(false);
@@ -61,7 +65,7 @@ const Box = styled.div`
   gap: 14px;
 `;
 const Checkbox = styled.div`
-  border: 2.5px solid #f9a109;
+  border: 2.5px solid var(--color-primary);
   border-radius: 4px;
   width: 24px;
   height: 24px;
@@ -90,7 +94,7 @@ const Quantity = styled.button`
   display: grid;
   place-content: center;
   background-color: inherit;
-  border: 2px solid #f9a109;
+  border: 2px solid var(--color-primary);
   border-radius: 24px;
   width: 68px;
   height: 32px;
@@ -101,7 +105,8 @@ const Quantity = styled.button`
 const Text = styled.p`
   color: ${(props) => (props.color ? props.color : "black")};
   text-align: ${(props) => (props.textAlign ? props.textAlign : "center")};
-  font-size: ${(props) => (props.fontSize ? props.fontSize : "16px")};
+  font-size: ${(props) =>
+    props.fontSize ? props.fontSize : "var(--font-size-md)"};
   font-weight: ${(props) => (props.fontWeight ? props.fontWeight : "500")};
 `;
 export default Item;

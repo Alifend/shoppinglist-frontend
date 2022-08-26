@@ -1,17 +1,22 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { ReactComponent as Source } from "./../assets/source.svg";
+import { ReactComponent as Source } from "./../../../assets/source.svg";
 import Item from "./Item";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { ReactComponent as EmptyCart } from "./../assets/emptyCart.svg";
+import { useLocation, useNavigate, useResolvedPath } from "react-router-dom";
+import { ReactComponent as EmptyCart } from "./../../../assets/emptyCart.svg";
 import { MdMode } from "react-icons/md";
-import { emptyCart } from "../store/ItemSlice";
+import { useCreateShopList } from "../../../hooks/useShopList";
+import { emptyCart } from "../../../store/ItemSlice";
+
 const ShoppingCart = ({ show }) => {
   const items = useSelector((state) => state.items);
   const [categories, setCategories] = useState([]);
   const [editableMode, setEditableMode] = useState(false);
+  const [shopListName, setShopListName] = useState("");
+  const { mutate } = useCreateShopList();
   const navigate = useNavigate();
+  let location = useLocation();
 
   useEffect(() => {
     if (items) {
@@ -19,9 +24,12 @@ const ShoppingCart = ({ show }) => {
     }
   }, [items]);
   const dispatch = useDispatch();
-  const deleteAllItems = () => {
+  const createShopList = (items, shopListName) => {
+    mutate({ items, createdAt: new Date(), name: shopListName });
     dispatch(emptyCart());
+    setShopListName("");
   };
+
   return (
     <ShoppingCartStyled show={show}>
       <Wrapper>
@@ -30,23 +38,42 @@ const ShoppingCart = ({ show }) => {
             <Section>
               <Source className="wineIcon" />
               <TitleContainer>
-                <Text fontWeight="700" color="white" fontSize="16px">
+                <Text
+                  fontWeight="700"
+                  color="white"
+                  fontSize="var(--font-size-md)"
+                >
                   Didn't find <br />
                   what you need?
                 </Text>
-                <Button onClick={() => navigate("/add")}> Add Item </Button>
+                <Button
+                  onClick={() =>
+                    navigate(
+                      location.pathname == "/"
+                        ? "/add"
+                        : location.pathname + "/add"
+                    )
+                  }
+                >
+                  Add Item
+                </Button>
               </TitleContainer>
             </Section>
           </Figure>
-          <Text
-            fontWeight="700"
-            color="#34333a"
-            fontSize="24px"
-            margin="30px 0px"
-          >
-            Shopping list
-            <MdMode onClick={() => setEditableMode(!editableMode)} />
-          </Text>
+          <Box>
+            <Text
+              fontWeight="700"
+              color="#34333a"
+              fontSize="24px"
+              margin="30px 0px"
+            >
+              Shopping list
+            </Text>
+            <MdMode
+              style={{ cursor: "pointer" }}
+              onClick={() => setEditableMode(!editableMode)}
+            />
+          </Box>
           {categories?.map((category, index) => (
             <React.Fragment key={index}>
               <Text color="#828282" fontSize="14px" margin="30px 0px 10px 0px">
@@ -76,13 +103,36 @@ const ShoppingCart = ({ show }) => {
         </Content>
       </Wrapper>
       <Options>
-        <CompleteField>
-          <Input placeholder="Enter a name"></Input>
-          {/* */}
-          <Button backgroundColor={"#F9A109"} color="white">
+        <Label htmlFor="name" textAlign="left" margin="18px 0px 9px 0px">
+          <StyledField
+            id="name"
+            name="name"
+            placeholder="Enter a name"
+            onChange={(e) => setShopListName(e.target.value)}
+            value={shopListName}
+          />
+          <CompleteButton
+            onClick={() => createShopList(items, shopListName)}
+            backgroundColor={"#F9A109"}
+            color="white"
+          >
+            Complete
+          </CompleteButton>
+        </Label>
+        {/* <CompleteField>
+          <Input
+            onChange={(e) => setShopListName(e.target.value)}
+            value={shopListName}
+            placeholder="Enter a name"
+          ></Input>
+          <Button
+            onClick={() => createShopList(items, shopListName)}
+            backgroundColor={"#F9A109"}
+            color="white"
+          >
             Complete
           </Button>
-        </CompleteField>
+        </CompleteField> */}
         {/* <Button onClick={deleteAllItems}>cancel</Button>
          */}
       </Options>
@@ -90,33 +140,45 @@ const ShoppingCart = ({ show }) => {
   );
 };
 
-const CompleteField = styled.div`
-  width: 309.89px;
-  height: 61.25px;
-  border: 2px solid #bdbdbd;
-  border-radius: 12px;
-  padding-left: 17px;
-  margin-top: 10px;
-  position: relative;
+const Box = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* height: ${(props) => (props.height ? props.height : "61.25px")}; */
-  background-color: inherit;
+  font-size: var(--font-size-lg);
 `;
 
-const Input = styled.input`
-  outline: none;
-  border: none;
-  height: 100%;
+const StyledField = styled.input`
+  border: 2px solid #bdbdbd;
+  border-radius: 12px;
   width: 100%;
+  padding-left: 17px;
+  position: relative;
+  height: ${(props) => (props.height ? props.height : "61.25px")};
+  background-color: inherit;
   &::placeholder {
     color: #bdbdbd;
   }
   &:focus {
     outline: none !important;
+    border: 2px solid var(--color-primary);
   }
 `;
+const Label = styled.label`
+  position: relative;
+  display: inline-block;
+  color: ${(props) => (props.color ? props.color : "black")};
+  text-align: ${(props) => (props.textAlign ? props.textAlign : "left")};
+  font-size: ${(props) =>
+    props.fontSize ? props.fontSize : "var(--font-size-md)"};
+  font-weight: ${(props) => (props.fontWeight ? props.fontWeight : "500")};
+  margin: ${(props) => (props.margin ? props.margin : "0px")};
+  width: 309.89px;
+  height: 61.25px;
+  &:focus-within {
+    color: var(--color-primary) !important;
+  }
+`;
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -142,11 +204,28 @@ const Content = styled.section`
 const Text = styled.p`
   color: ${(props) => (props.color ? props.color : "black")};
   text-align: ${(props) => (props.textAlign ? props.textAlign : "left")};
-  font-size: ${(props) => (props.fontSize ? props.fontSize : "16px")};
+  font-size: ${(props) =>
+    props.fontSize ? props.fontSize : "var(--font-size-md)"};
   font-weight: ${(props) => (props.fontWeight ? props.fontWeight : "500")};
   margin: ${(props) => (props.margin ? props.margin : "0px")}; ; ;
 `;
-
+const CompleteButton = styled.button`
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  height: 100%;
+  cursor: pointer;
+  background: ${(props) =>
+    props.backgroundColor ? props.backgroundColor : "#ffffff"};
+  color: ${(props) => (props.backgroundColor ? props.color : "#34333a")};
+  box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.04);
+  border-radius: 12px;
+  padding: 20px 23px;
+  border: none;
+  font-size: var(--font-size-sm);
+  line-height: 18px;
+  font-weight: 700;
+`;
 const Button = styled.button`
   cursor: pointer;
   background: ${(props) =>
@@ -156,7 +235,7 @@ const Button = styled.button`
   border-radius: 12px;
   padding: 20px 23px;
   border: none;
-  font-size: 14px;
+  font-size: var(--font-size-sm);
   line-height: 18px;
   font-weight: 700;
 `;
@@ -178,7 +257,6 @@ const Figure = styled.figure`
   background: #80485b;
   height: 120px;
   width: 100%;
-  /* width: clamp(250px, 233.4px + 4.1vw, 308px); */
   border-radius: 24px;
   display: flex;
   justify-content: center;
@@ -189,19 +267,15 @@ const Figure = styled.figure`
 const ShoppingCartStyled = styled.aside`
   height: 100%;
   width: calc(100% - 52px);
-  /* padding: 16.29px; */
   display: flex;
   align-items: center;
   flex-direction: column;
-  overflow-y: scroll;
-  /* overflow-y: scroll */
-  /* width: clamp(320px, 11.69vw + 220.57px, calc(100vw - 42px)); */
   background: #fff0de;
   position: fixed;
   left: ${(props) => (props.show ? "52px" : "-100%")};
   transition: left 0.4s ease;
   @media only screen and (min-width: 800px) {
-    width: 450px;
+    width: 389px;
     right: 0px;
     left: auto;
     grid-area: side;
