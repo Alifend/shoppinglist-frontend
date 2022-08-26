@@ -2,15 +2,52 @@ import React from "react";
 import styled from "styled-components";
 import { FaPlus } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 const ListItems = ({ categoryName, items, addItemToCart, setShowCart }) => {
   const navigate = useNavigate();
+
+  const variantsUL = {
+    closed: {
+      transition: { staggerChildren: 0.05, delayChildren: 0.2 },
+    },
+    open: {
+      transition: { staggerChildren: 0.05, staggerDirection: -1 },
+    },
+  };
+
+  const variantsLI = {
+    closed: {
+      y: 50,
+      opacity: 0,
+      transition: {
+        y: { stiffness: 1000, velocity: -100 },
+      },
+    },
+    open: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        y: { stiffness: 1000 },
+      },
+    },
+  };
+
   if (items.length != 0) {
     return (
       <List>
         <h5 className="title">{categoryName}</h5>
-        <div className="categoryContainer">
+        <motion.ul
+          variants={variantsUL}
+          initial="closed"
+          animate="open"
+          className="categoryContainer"
+        >
           {items.map((item) => (
-            <div className="item clickeable" key={item._id}>
+            <motion.li
+              variants={variantsLI}
+              className="item clickeable"
+              key={item._id}
+            >
               <p
                 onClick={() => {
                   navigate("/view/" + item._id);
@@ -20,9 +57,9 @@ const ListItems = ({ categoryName, items, addItemToCart, setShowCart }) => {
                 {item.name}
               </p>
               <FaPlus onClick={() => addItemToCart(item)} color="#c1c1c4" />
-            </div>
+            </motion.li>
           ))}
-        </div>
+        </motion.ul>
       </List>
     );
   } else {
@@ -30,7 +67,7 @@ const ListItems = ({ categoryName, items, addItemToCart, setShowCart }) => {
   }
 };
 
-const List = styled.section`
+const List = styled(motion.section)`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
