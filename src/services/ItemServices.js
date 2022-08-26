@@ -16,9 +16,6 @@ class ItemServices {
   deleteItem(id) {
     return axios.delete(API + "/items/" + id);
   }
-  createList(list) {
-    return axios.post(API + "/shopList/", item);
-  }
 }
 
 export default new ItemServices();
