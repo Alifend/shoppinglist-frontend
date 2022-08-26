@@ -8,8 +8,9 @@ import { addListToCart } from "../../store/ItemSlice";
 import BackButton from "../Shared/BackButton";
 import DateLabel from "../Shared/DateLabel";
 import ListItems from "./ListItems";
+import Side from "../../pages/Side";
 
-const ShopList = () => {
+const ShopList = ({ showSide }) => {
   let { id } = useParams();
   const { isLoading, data } = useGetSingleList(id);
   const { isLoading: isLoadingCategories, data: categories } =
@@ -41,7 +42,7 @@ const ShopList = () => {
             />
           ))}
       </ShopListContainer>
-      <Outlet />
+      <Side showSide={showSide} />
     </>
   );
 };

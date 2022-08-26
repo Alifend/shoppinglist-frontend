@@ -7,7 +7,8 @@ import { useQuery } from "@tanstack/react-query";
 import ItemServices from "../../../services/ItemServices";
 import { addItem, deleteItem } from "../../../store/ItemSlice";
 import { useDeleteItem } from "../../../hooks/useItem";
-const ViewItem = ({ show }) => {
+import { motion } from "framer-motion";
+const ViewItem = ({ showSide }) => {
   let { itemId } = useParams();
   const { isLoading, error, data } = useQuery([itemId], () =>
     ItemServices.getSingleItem(itemId)
@@ -23,13 +24,19 @@ const ViewItem = ({ show }) => {
   const eliminateItem = (id) => {
     mutate(id);
     dispatch(deleteItem(id));
-    navigate("/");
+    navigate("/home");
   };
 
   return (
-    <ShoppingCartStyled show={show}>
+    <ShoppingCartStyled
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      exit={{ opacity: 0, transition: { type: "tween", duration: 0.2 } }}
+      showSide={showSide}
+    >
       <Content>
-        <BackButton onClick={() => navigate("/")}>
+        <BackButton onClick={() => navigate("/home")}>
           <FaLongArrowAltLeft color="#f9a109" />
           <Text color="#f9a109" fontWeight="700" fontSize="0.875rem">
             back
@@ -38,9 +45,6 @@ const ViewItem = ({ show }) => {
         {!isLoading && (
           <>
             <Img src={data.data.img} />
-            {/* <Text fontSize="24px" color="#F9A109">
-              ViewItems
-            </Text> */}
             <Text color="#C1C1C4" fontSize="0.75rem" margin="0px 0px 11px 0px">
               Name
             </Text>
@@ -97,7 +101,6 @@ const BackButton = styled.button`
   align-items: center;
   gap: 10px;
   margin-bottom: 34px;
-  /* left: 0px; */
 `;
 const Box = styled.div`
   width: 100%;
@@ -143,7 +146,7 @@ const Button = styled.button`
   width: 123px;
 `;
 
-const ShoppingCartStyled = styled.aside`
+const ShoppingCartStyled = styled(motion.aside)`
   height: 100%;
   width: calc(100% - 52px);
   padding: 16.29px;
@@ -151,10 +154,9 @@ const ShoppingCartStyled = styled.aside`
   align-items: center;
   flex-direction: column;
   overflow-y: scroll;
-  /* width: clamp(320px, 11.69vw + 220.57px, calc(100vw - 42px)); */
   background: white;
   position: fixed;
-  left: ${(props) => (props.show ? "52px" : "-100%")};
+  left: ${(props) => (props.showSide ? "52px" : "-100%")};
   transition: left 0.4s ease;
   @media only screen and (min-width: 800px) {
     width: 389px;

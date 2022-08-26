@@ -2,8 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { FaPlus } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
-const ListItems = ({ categoryName, items, addItemToCart, setShowCart }) => {
+import { motion, AnimatePresence } from "framer-motion";
+const ListItems = ({ categoryName, items, addItemToCart, setShowSide }) => {
   const navigate = useNavigate();
 
   const variantsUL = {
@@ -42,23 +42,25 @@ const ListItems = ({ categoryName, items, addItemToCart, setShowCart }) => {
           animate="open"
           className="categoryContainer"
         >
-          {items.map((item) => (
-            <motion.li
-              variants={variantsLI}
-              className="item clickeable"
-              key={item._id}
-            >
-              <p
-                onClick={() => {
-                  navigate("/view/" + item._id);
-                  setShowCart(true);
-                }}
+          <AnimatePresence>
+            {items.map((item) => (
+              <motion.li
+                variants={variantsLI}
+                className="item clickeable"
+                key={item._id}
               >
-                {item.name}
-              </p>
-              <FaPlus onClick={() => addItemToCart(item)} color="#c1c1c4" />
-            </motion.li>
-          ))}
+                <p
+                  onClick={() => {
+                    navigate("view/" + item._id);
+                    setShowSide(true);
+                  }}
+                >
+                  {item.name}
+                </p>
+                <FaPlus onClick={() => addItemToCart(item)} color="#c1c1c4" />
+              </motion.li>
+            ))}
+          </AnimatePresence>
         </motion.ul>
       </List>
     );

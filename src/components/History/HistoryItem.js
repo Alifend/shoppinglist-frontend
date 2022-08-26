@@ -1,5 +1,5 @@
 import React from "react";
-import { MdDateRange, MdKeyboardArrowRight } from "react-icons/md";
+import { MdKeyboardArrowRight } from "react-icons/md";
 import styled from "styled-components";
 import DateLabel from "../Shared/DateLabel";
 
@@ -26,7 +26,7 @@ const Item = styled.div`
   box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.05);
   border-radius: 12px;
   min-height: 63.45px;
-  padding: 20px;
+  padding: 10px 20px;
   @media only screen and (min-width: 525px) {
     flex-direction: row;
   }

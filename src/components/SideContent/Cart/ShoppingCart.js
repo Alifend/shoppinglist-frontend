@@ -3,26 +3,27 @@ import styled from "styled-components";
 import { ReactComponent as Source } from "./../../../assets/source.svg";
 import Item from "./Item";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate, useResolvedPath } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ReactComponent as EmptyCart } from "./../../../assets/emptyCart.svg";
 import { MdMode } from "react-icons/md";
 import { useCreateShopList } from "../../../hooks/useShopList";
 import { emptyCart } from "../../../store/ItemSlice";
+import { AnimatePresence, motion } from "framer-motion";
 
-const ShoppingCart = ({ show }) => {
+const ShoppingCart = ({ showSide }) => {
   const items = useSelector((state) => state.items);
   const [categories, setCategories] = useState([]);
   const [editableMode, setEditableMode] = useState(false);
   const [shopListName, setShopListName] = useState("");
   const { mutate } = useCreateShopList();
   const navigate = useNavigate();
-  let location = useLocation();
 
   useEffect(() => {
     if (items) {
       setCategories([...new Set(items.map((element) => element.category))]);
     }
   }, [items]);
+
   const dispatch = useDispatch();
   const createShopList = (items, shopListName) => {
     mutate({ items, createdAt: new Date(), name: shopListName });
@@ -31,7 +32,13 @@ const ShoppingCart = ({ show }) => {
   };
 
   return (
-    <ShoppingCartStyled show={show}>
+    <ShoppingCartStyled
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      exit={{ opacity: 0, transition: { type: "tween", duration: 0.2 } }}
+      show={showSide + ""}
+    >
       <Wrapper>
         <Content>
           <Figure>
@@ -46,17 +53,7 @@ const ShoppingCart = ({ show }) => {
                   Didn't find <br />
                   what you need?
                 </Text>
-                <Button
-                  onClick={() =>
-                    navigate(
-                      location.pathname == "/"
-                        ? "/add"
-                        : location.pathname + "/add"
-                    )
-                  }
-                >
-                  Add Item
-                </Button>
+                <Button onClick={() => navigate("add")}>Add Item</Button>
               </TitleContainer>
             </Section>
           </Figure>
@@ -74,31 +71,45 @@ const ShoppingCart = ({ show }) => {
               onClick={() => setEditableMode(!editableMode)}
             />
           </Box>
-          {categories?.map((category, index) => (
-            <React.Fragment key={index}>
-              <Text color="#828282" fontSize="14px" margin="30px 0px 10px 0px">
-                {category}
-              </Text>
-              {items
-                ?.filter((item) => item.category == category)
-                .map((item) => (
-                  <Item
-                    editableMode={editableMode}
-                    key={item._id}
-                    dispatch={dispatch}
-                    {...item}
-                  />
-                ))}
-            </React.Fragment>
-          ))}
+          <AnimatePresence>
+            {categories?.map((category, index) => (
+              <div key={index}>
+                <Text
+                  color="#828282"
+                  fontSize="14px"
+                  margin="30px 0px 10px 0px"
+                >
+                  {category}
+                </Text>
+                {items
+                  ?.filter((item) => item.category == category)
+                  .map((item) => (
+                    <Item
+                      editableMode={editableMode}
+                      key={item._id}
+                      dispatch={dispatch}
+                      {...item}
+                    />
+                  ))}
+              </div>
+            ))}
+          </AnimatePresence>
 
           {items.length == 0 && (
-            <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+              exit={{
+                opacity: 0,
+                transition: { type: "tween", duration: 0.2 },
+              }}
+            >
               <Text fontWeight="700" fontSize="20px">
                 No items
               </Text>
               <EmptyCart />
-            </>
+            </motion.div>
           )}
         </Content>
       </Wrapper>
@@ -119,22 +130,6 @@ const ShoppingCart = ({ show }) => {
             Complete
           </CompleteButton>
         </Label>
-        {/* <CompleteField>
-          <Input
-            onChange={(e) => setShopListName(e.target.value)}
-            value={shopListName}
-            placeholder="Enter a name"
-          ></Input>
-          <Button
-            onClick={() => createShopList(items, shopListName)}
-            backgroundColor={"#F9A109"}
-            color="white"
-          >
-            Complete
-          </Button>
-        </CompleteField> */}
-        {/* <Button onClick={deleteAllItems}>cancel</Button>
-         */}
       </Options>
     </ShoppingCartStyled>
   );
@@ -264,7 +259,7 @@ const Figure = styled.figure`
   padding: 11px 13px;
   margin: 35px 0px;
 `;
-const ShoppingCartStyled = styled.aside`
+const ShoppingCartStyled = styled(motion.aside)`
   height: 100%;
   width: calc(100% - 52px);
   display: flex;
@@ -272,7 +267,7 @@ const ShoppingCartStyled = styled.aside`
   flex-direction: column;
   background: #fff0de;
   position: fixed;
-  left: ${(props) => (props.show ? "52px" : "-100%")};
+  left: ${(props) => (props.show == "true" ? "52px" : "-100%")};
   transition: left 0.4s ease;
   @media only screen and (min-width: 800px) {
     width: 389px;

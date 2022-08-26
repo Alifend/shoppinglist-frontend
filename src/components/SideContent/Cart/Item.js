@@ -7,11 +7,17 @@ import {
   deleteItem,
 } from "../../../store/ItemSlice";
 import { MdCheck } from "react-icons/md";
+import { motion } from "framer-motion";
 const Item = ({ editableMode, dispatch, name, _id, quantity }) => {
   const [isSelected, setIsSelected] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   return (
-    <ItemContainer>
+    <ItemContainer
+      initial={{ y: -10 }}
+      animate={{ y: 0 }}
+      trasition={{ duration: 0.5 }}
+      exit={{ opacity: 0 }}
+    >
       <Box>
         {editableMode && (
           <Checkbox onClick={() => setIsChecked(!isChecked)}>
@@ -71,6 +77,7 @@ const Checkbox = styled.div`
   height: 24px;
   display: grid;
   place-content: center;
+  cursor: pointer;
 `;
 const InputContainer = styled.div`
   display: flex;
@@ -81,7 +88,7 @@ const InputContainer = styled.div`
   background-color: ${(props) =>
     props.background ? props.background : "inherit"};
 `;
-const ItemContainer = styled.article`
+const ItemContainer = styled(motion.article)`
   display: flex;
   justify-content: space-between;
   align-items: center;

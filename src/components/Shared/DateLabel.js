@@ -1,5 +1,5 @@
 import React from "react";
-import { MdDateRange, MdKeyboardArrowRight } from "react-icons/md";
+import { MdDateRange } from "react-icons/md";
 import moment from "moment";
 import styled from "styled-components";
 

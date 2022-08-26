@@ -9,7 +9,7 @@ import {
   FaCartArrowDown,
 } from "react-icons/fa";
 import { useLocation, useNavigate } from "react-router-dom";
-const Navbar = ({ setShowCart }) => {
+const Navbar = ({ setShowSide }) => {
   const [position, setPosition] = useState(4);
   const [quantity, setQuantity] = useState(0);
   const navigate = useNavigate();
@@ -48,7 +48,7 @@ const Navbar = ({ setShowCart }) => {
       <Logo />
       <Menu>
         <Line position={position} />
-        <IconContainer onClick={() => handleClick("/", 1)}>
+        <IconContainer onClick={() => handleClick("/home", 1)}>
           <FaBars size={20} />
         </IconContainer>
         <IconContainer onClick={() => handleClick("/history", 2)}>
@@ -60,7 +60,7 @@ const Navbar = ({ setShowCart }) => {
       </Menu>
       <Circle
         quantity={quantity}
-        onClick={() => setShowCart((current) => !current)}
+        onClick={() => setShowSide((current) => !current)}
       >
         <FaCartArrowDown color="white" size={20} />
       </Circle>

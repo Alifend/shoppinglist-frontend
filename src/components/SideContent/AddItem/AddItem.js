@@ -1,10 +1,16 @@
 import React from "react";
 import styled from "styled-components";
 import Form from "./Form";
-
-const AddItemForm = ({ show }) => {
+import { motion } from "framer-motion";
+const AddItemForm = ({ showSide }) => {
   return (
-    <ShoppingCartStyled show={show}>
+    <ShoppingCartStyled
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      exit={{ opacity: 0, transition: { type: "tween", duration: 0.2 } }}
+      showSide={showSide}
+    >
       <Content>
         <Text fontSize="24px" color="#F9A109">
           Add a new Item
@@ -39,7 +45,7 @@ const Text = styled.label`
   }
 `;
 
-const ShoppingCartStyled = styled.aside`
+const ShoppingCartStyled = styled(motion.aside)`
   height: 100%;
   width: calc(100% - 52px);
   padding: 16.29px;
@@ -48,10 +54,9 @@ const ShoppingCartStyled = styled.aside`
   flex-direction: column;
   overflow-y: scroll;
 
-  /* width: clamp(320px, 11.69vw + 220.57px, calc(100vw - 42px)); */
   background: white;
   position: fixed;
-  left: ${(props) => (props.show ? "52px" : "-100%")};
+  left: ${(props) => (props.showSide ? "52px" : "-100%")};
   transition: left 0.4s ease;
   @media only screen and (min-width: 800px) {
     width: 389px;
