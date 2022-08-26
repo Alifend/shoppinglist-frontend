@@ -18,12 +18,14 @@ const Graph = ({ data }) => {
   }));
   return (
     <GraphContainer>
-      <ResponsiveContainer width="99%" height="100%" aspect={3}>
+      <Title>Yearly Summary</Title>
+      <ResponsiveContainer width="97%" height="100%">
         <LineChart
+          style={{ position: "absolute" }}
           width={600}
           height={300}
           data={monthsData}
-          margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
+          margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
         >
           <Line type="natural" dataKey="quantity" stroke="orange" />
           <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
@@ -39,6 +41,17 @@ const Graph = ({ data }) => {
 const GraphContainer = styled.section`
   grid-area: graph;
   width: 100%;
-  height: 100%;
+  height: 250px;
+  @media only screen and (min-width: 800px) {
+    height: 300px;
+  }
+  /* padding-inline: 2rem; */
+`;
+
+const Title = styled.p`
+  font-weight: 500;
+  font-size: var(--font-size-lg);
+  margin-bottom: 2rem;
+  margin-left: 2rem;
 `;
 export default Graph;
