@@ -1,70 +1,221 @@
-# Getting Started with Create React App
+<br />
+<div align="center">
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<h1 align="center">Shoppingify Website</h1>
+<h3 align="center">
 
-## Available Scripts
+[ViewDemo](https://shoppingify-alifend.netlify.app/home)
 
-In the project directory, you can run:
+</h3>
 
-### `npm start`
+</div>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+<!-- Table of Contents -->
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+# :notebook_with_decorative_cover: Table of Contents
 
-### `npm test`
+- [:notebook_with_decorative_cover: Table of Contents](#notebook_with_decorative_cover-table-of-contents)
+  - [:star2: About the Project](#star2-about-the-project)
+    - [:camera: Screenshots](#camera-screenshots)
+    - [:space_invader: Tech Stack](#space_invader-tech-stack)
+    - [:dart: Features](#dart-features)
+    - [:key: Environment Variables](#key-environment-variables)
+  - [:toolbox: Getting Started](#toolbox-getting-started)
+    - [:bangbang: Prerequisites](#bangbang-prerequisites)
+    - [:gear: Installation](#gear-installation)
+    - [:running: Run Locally](#running-run-locally)
+  - [:eyes: Usage](#eyes-usage)
+  - [:handshake: Contact](#handshake-contact)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<!-- About the Project -->
 
-### `npm run build`
+## :star2: About the Project
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<!-- Screenshots -->
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### :camera: Screenshots
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Home page
+  ![Home](https://user-images.githubusercontent.com/47732101/187781342-80b2bf85-9319-4773-b324-c13c74bc7b9d.png)
 
-### `npm run eject`
+- Add new Item
+  ![Add new Item](https://user-images.githubusercontent.com/47732101/187781345-f1df9bf5-7ae1-445f-8771-e3ae55d1e3e7.png)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- Check List Cart
+  ![Check List Cart](https://user-images.githubusercontent.com/47732101/187781340-5f2d72e4-5c33-40e2-a4e2-e749ff328ec6.png)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- View Item
+  ![View Item](https://user-images.githubusercontent.com/47732101/187781333-3f7d3525-ced8-4303-a8b6-b6d64ca26a8c.png)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- History page
+  ![History page](https://user-images.githubusercontent.com/47732101/187782084-3497109a-4bf1-47f2-afc3-e297217a74bd.png)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- History detail
+  ![History detail](https://user-images.githubusercontent.com/47732101/187782165-27fd73a9-ce13-4342-a3b2-37813ad58908.png)
 
-## Learn More
+- Statistics page
+  ![Statistics page](https://user-images.githubusercontent.com/47732101/187782246-9c26e153-7599-4d74-9d5a-e8da8dcbffb3.png)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+<!-- TechStack -->
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### :space_invader: Tech Stack
 
-### Code Splitting
+<details>
+  <summary>Client</summary>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+![Javascript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)
+![Redux](https://img.shields.io/badge/Redux-593D88?style=for-the-badge&logo=redux&logoColor=white)
+![Styled Components](https://img.shields.io/badge/styled--components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white)
 
-### Analyzing the Bundle Size
+</details>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+<details>
+  <summary>Server</summary>
+  
+  ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
+  ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
+![Javascript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 
-### Making a Progressive Web App
+</details>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+<details>
+<summary>Database</summary>
 
-### Advanced Configuration
+![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+</details>
 
-### Deployment
+<details>
+<summary>Deploy</summary>
+  
+  ![Netlify](https://img.shields.io/badge/Netlify-00C7B7?style=for-the-badge&logo=netlify&logoColor=white)
+</details>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+<!-- Features -->
 
-### `npm run build` fails to minify
+### :dart: Features
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Page transition animation
+- See a list of items under different categories.
+
+- Add a new item with name, category, note, and image.
+
+- When user add a new item, user can select one from the existing categories
+
+- When user select an item, user can see its details and user can choose to add the current list or delete the item.
+
+- Add items to the current list
+
+- Increase the number of item in the list
+
+- Remove the item from the list
+
+- User can save/update the list with a name (user can have only one active list at a time)
+
+- User can toggle between editing state and completing state
+
+- When user am at completing state, user can save my progress by selecting the item
+
+- See user's shopping history and user can see the details of it
+
+- See some statistics: top items, top categories, and monthly comparison.
+
+- Search for items
+
+<!-- Env Variables -->
+
+### :key: Environment Variables
+
+To run this project, you will need to add the following environment variables to your .env file
+
+`URI`
+
+``
+
+<!-- Getting Started -->
+
+## :toolbox: Getting Started
+
+<!-- Prerequisites -->
+
+### :bangbang: Prerequisites
+
+This project uses Npm as package manager
+
+```bash
+ npm install npm@latest -g
+```
+
+<!-- Installation -->
+
+### :gear: Installation
+
+<!-- Run Locally -->
+
+### :running: Run Locally
+
+Clone backend
+
+```bash
+  git clone https://github.com/Alifend/shoppinglist-backend.git
+```
+
+Go to the project directory
+
+```bash
+  cd shoppinglist-backend
+```
+
+Install dependencies
+
+```bash
+  npm install
+```
+
+Start backend
+
+```bash
+  npm run dev
+```
+
+Clone frontend
+
+```bash
+  git clone https://github.com/Alifend/shoppinglist-frontend.git
+```
+
+Go to the project directory
+
+```bash
+  cd shoppinglist-frontend
+```
+
+Install dependencies
+
+```bash
+  npm install
+```
+
+Start frontend
+
+```bash
+  npm run start
+```
+
+<!-- Usage -->
+
+## :eyes: Usage
+
+This project can be used for any real stores to interact with user. In other words, this project is able to show current items,allow user to add, remove item, show history detail and the statistic sale of the store.
+
+<!-- Contact -->
+
+## :handshake: Contact
+
+Andrés Felipe Celis - andres.celis@correounivalle.edu.co
+
+Frontend Link: [https://github.com/Alifend/shoppinglist-frontend](https://github.com/Alifend/shoppinglist-frontend)
+
+Backend Link : [https://github.com/Alifend/shoppinglist-backend](https://github.com/Alifend/shoppinglist-backend)
